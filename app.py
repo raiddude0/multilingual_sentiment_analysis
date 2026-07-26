@@ -3,12 +3,12 @@ import sys
 import os
 from pathlib import Path
 
-# Add src to path for imports
+
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 from infer import predict, predict_batch, classifier
 
-# Page configuration
+
 st.set_page_config(
     page_title="Multilingual Sentiment Analysis",
     page_icon="🌍",
@@ -16,7 +16,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom styling
+
 st.markdown("""
     <style>
     .main {
@@ -28,14 +28,14 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Header
+
 st.title("🌍 Multilingual Sentiment Analysis")
 st.markdown("""
 Analyze sentiment in **multiple languages** using XLM-RoBERTa fine-tuned on multilingual data.
 Supports: English, French, Arabic, Spanish, German, and 100+ other languages!
 """)
 
-# Sidebar info
+
 with st.sidebar:
     st.header("ℹ️ About")
     st.markdown("""
@@ -59,10 +59,10 @@ with st.sidebar:
     "It's okay" → Neutral
     """)
 
-# Create tabs
+
 tab1, tab2, tab3 = st.tabs(["📝 Single Text", "📚 Batch Analysis", "🧪 Demo"])
 
-# ============ TAB 1: Single Text Analysis ============
+
 with tab1:
     st.subheader("Analyze a Single Text")
     
@@ -77,7 +77,7 @@ with tab1:
         )
     
     with col2:
-        st.write("")  # spacing
+        st.write("") 
         analyze_button = st.button("🔍 Analyze", use_container_width=True, type="primary")
     
     if analyze_button and text_input.strip():
@@ -85,7 +85,7 @@ with tab1:
             with st.spinner("Analyzing..."):
                 result = predict(text_input.strip())
             
-            # Display results
+           
             col1, col2, col3 = st.columns(3)
             
             with col1:
@@ -95,7 +95,7 @@ with tab1:
                 st.metric("Confidence", f"{result['confidence']*100:.1f}%")
             
             with col3:
-                # Color coding based on sentiment
+                
                 sentiment_colors = {
                     "positive": "🟢",
                     "neutral": "🟡",
@@ -104,10 +104,10 @@ with tab1:
                 emoji = sentiment_colors.get(result['label'], "⚪")
                 st.metric("Status", emoji)
             
-            # Confidence bar
+            
             st.progress(result['confidence'], text=f"Confidence: {result['confidence']*100:.1f}%")
             
-            # Detailed view
+            
             with st.expander("📊 Detailed Results"):
                 st.json({
                     "text": text_input,
@@ -122,7 +122,7 @@ with tab1:
     elif analyze_button:
         st.warning("⚠️ Please enter some text to analyze")
 
-# ============ TAB 2: Batch Analysis ============
+
 with tab2:
     st.subheader("Analyze Multiple Texts")
     
@@ -145,7 +145,7 @@ with tab2:
                 with st.spinner(f"Analyzing {len(texts)} texts..."):
                     results = predict_batch(texts)
                 
-                # Display results in table
+                
                 st.success(f"✅ Analyzed {len(texts)} texts")
                 
                 results_data = []
@@ -162,7 +162,7 @@ with tab2:
                     hide_index=True
                 )
                 
-                # Summary statistics
+               
                 sentiments = [r['label'] for r in results]
                 col1, col2, col3 = st.columns(3)
                 
@@ -178,7 +178,7 @@ with tab2:
                     negative_count = sentiments.count('negative')
                     st.metric("😞 Negative", negative_count)
                 
-                # Download results
+                
                 import json
                 csv_data = "Text,Sentiment,Confidence\n"
                 for text, result in zip(texts, results):
@@ -196,7 +196,7 @@ with tab2:
         else:
             st.warning("⚠️ Please enter at least one text")
 
-# ============ TAB 3: Demo ============
+
 with tab3:
     st.subheader("🧪 Try Demo Examples")
     
@@ -237,7 +237,7 @@ with tab3:
                         st.write(f"{sentiment_emoji.get(result['label'])} {result['label']}")
                         st.write(f"*{result['confidence']*100:.1f}%*")
 
-# Footer
+
 st.divider()
 st.markdown("""
 <div style='text-align: center'>
