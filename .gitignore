@@ -1,3 +1,14 @@
 venv311/
 venv/
 results/
+sentiment_model/
+data/
+*.safetensors
+*.pth
+*.pt
+.DS_Store
+__pycache__/
+*.pyc
+.env
+.streamlit/
+tmp_trainer/
