@@ -3,8 +3,14 @@ from transformers import pipeline
 from config import ID2LABEL, LABEL2ID
 
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "sentiment_model", "multilingual-sentiment-model")
+# Try local model first, fallback to base model if not available
+LOCAL_MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "sentiment_model", "multilingual-sentiment-model")
 
+if os.path.exists(LOCAL_MODEL_PATH):
+    MODEL_PATH = LOCAL_MODEL_PATH
+else:
+    # Fallback for Streamlit Cloud (no local files)
+    MODEL_PATH = "xlm-roberta-base"
 
 classifier = pipeline(
     "sentiment-analysis",
