@@ -219,22 +219,25 @@ with tab3:
     
     for category, examples in demo_examples.items():
         with st.expander(category, expanded=False):
-            for example in examples:
-                col1, col2 = st.columns([4, 1])
+            for idx, example in enumerate(examples):
+                col1, col2, col3 = st.columns([3, 1, 1])
                 
                 with col1:
                     st.write(f"*{example}*")
                 
                 with col2:
-                    if st.button("Analyze", key=example):
-                        result = predict(example)
-                        sentiment_emoji = {
-                            "positive": "🟢",
-                            "neutral": "🟡",
-                            "negative": "🔴"
-                        }
-                        st.write(f"{sentiment_emoji.get(result['label'])} {result['label']}")
-                        st.write(f"*{result['confidence']*100:.1f}%*")
+                    if st.button("Analyze", key=f"{category}_{idx}"):
+                        try:
+                            result = predict(example)
+                            sentiment_emoji = {
+                                "positive": "🟢",
+                                "neutral": "🟡",
+                                "negative": "🔴"
+                            }
+                            with col3:
+                                st.success(f"{sentiment_emoji.get(result['label'])} {result['label'].upper()}")
+                        except Exception as e:
+                            st.error(f"Error: {str(e)}")
 
 
 st.divider()
