@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from infer import predict, predict_batch, classifier
+from src.infer import predict, predict_batch, classifier
 
 
 st.set_page_config(
@@ -15,8 +15,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-
+ 
 st.markdown("""
     <style>
     .main {
@@ -77,7 +76,7 @@ with tab1:
         )
     
     with col2:
-        st.write("") 
+        st.write("")  
         analyze_button = st.button("🔍 Analyze", use_container_width=True, type="primary")
     
     if analyze_button and text_input.strip():
@@ -85,7 +84,7 @@ with tab1:
             with st.spinner("Analyzing..."):
                 result = predict(text_input.strip())
             
-           
+            
             col1, col2, col3 = st.columns(3)
             
             with col1:
@@ -95,7 +94,7 @@ with tab1:
                 st.metric("Confidence", f"{result['confidence']*100:.1f}%")
             
             with col3:
-                
+               
                 sentiment_colors = {
                     "positive": "🟢",
                     "neutral": "🟡",
@@ -145,7 +144,7 @@ with tab2:
                 with st.spinner(f"Analyzing {len(texts)} texts..."):
                     results = predict_batch(texts)
                 
-                
+               
                 st.success(f"✅ Analyzed {len(texts)} texts")
                 
                 results_data = []
@@ -162,7 +161,7 @@ with tab2:
                     hide_index=True
                 )
                 
-               
+                
                 sentiments = [r['label'] for r in results]
                 col1, col2, col3 = st.columns(3)
                 
