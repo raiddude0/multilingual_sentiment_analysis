@@ -7,6 +7,12 @@ An end-to-end NLP project for three-class sentiment classification: **negative**
 
 The current model is exposed through a Gradio app and is evaluated both overall and separately for every supported language.
 
+## 🎮 Demo: Gradio App
+
+Run the interactive demo locally:
+'''bash
+python app.py
+
 ## Results at a glance
 
 | Experiment | Data | Evaluation | Result |
