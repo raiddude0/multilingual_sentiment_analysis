@@ -1,76 +1,54 @@
+"""Inference helpers for the saved sentiment model."""
+
 import os
+from functools import lru_cache
+from pathlib import Path
+
+import torch
 from transformers import pipeline
-from config import ID2LABEL, LABEL2ID
+
+from .config import MODEL_DIR
 
 
-# Try local model first, fallback to base model if not available
-LOCAL_MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "sentiment_model", "multilingual-sentiment-model")
-
-if os.path.exists(LOCAL_MODEL_PATH):
-    MODEL_PATH = LOCAL_MODEL_PATH
-else:
-    # Fallback for Streamlit Cloud (no local files)
-    MODEL_PATH = "xlm-roberta-base"
-
-classifier = pipeline(
-    "sentiment-analysis",
-    model=MODEL_PATH,
-    tokenizer=MODEL_PATH,
-    device=0 if os.environ.get("USE_GPU", "false").lower() == "true" else -1  #0 for GPU -1 for CPU
-)
+def resolve_model_path() -> str:
+    """Return an explicitly configured or locally saved fine-tuned model."""
+    configured = os.environ.get("SENTIMENT_MODEL_PATH")
+    model_path = Path(configured).expanduser() if configured else MODEL_DIR
+    if not model_path.is_dir():
+        raise FileNotFoundError(
+            f"No fine-tuned model found at {model_path}. Train one with `python -m src.train` "
+            "or set SENTIMENT_MODEL_PATH to a compatible model directory."
+        )
+    return str(model_path)
 
 
-samples = [
-    "The flight was delayed three hours and no one told us why.",
-    "Merci beaucoup, un vol vraiment agréable !",
-    "الخدمة كانت ممتازة والطاقم لطيف جدا",
-]
+@lru_cache(maxsize=1)
+def get_classifier():
+    use_gpu = os.environ.get("USE_GPU", "false").lower() == "true"
+    if use_gpu and not torch.cuda.is_available():
+        raise RuntimeError("USE_GPU=true but CUDA is not available.")
+    return pipeline(
+        "sentiment-analysis", model=resolve_model_path(), tokenizer=resolve_model_path(),
+        device=0 if use_gpu else -1,
+    )
 
-def predict(text):
-    """
-    Predict sentiment for a single text.
-    Returns dict with label name and confidence.
-    """
-    if not text or not isinstance(text, str):
-        raise ValueError("Input must be a non-empty string")
-    
-    result = classifier(text)[0]
-    
-    return {
-        "label": result['label'],
-        "confidence": result['score']
-    }
 
-def predict_batch(texts):
+def predict(text: str) -> dict[str, float | str]:
+    if not isinstance(text, str) or not text.strip():
+        raise ValueError("Input must be a non-empty string.")
+    result = get_classifier()(text.strip())[0]
+    return {"label": result["label"], "confidence": float(result["score"])}
 
-    """
-    Predict sentiment for multiple texts efficiently.
-    """
-    if not texts or not isinstance(texts, list):
-        raise ValueError("Input must be a non-empty list of strings")
-    
-    results = classifier(texts)
-    predictions = []
-    for result in results:
-        predictions.append({
-            "label": result['label'],
-            "confidence": result['score']
-        })
-    return predictions
+
+def predict_batch(texts: list[str]) -> list[dict[str, float | str]]:
+    if not isinstance(texts, list) or not texts or any(not isinstance(text, str) or not text.strip() for text in texts):
+        raise ValueError("Input must be a non-empty list of non-empty strings.")
+    return [
+        {"label": result["label"], "confidence": float(result["score"])}
+        for result in get_classifier()([text.strip() for text in texts])
+    ]
+
 
 if __name__ == "__main__":
-    print("===single Inference===\n")
-    for text in samples:
-        try:
-            result = predict(text)
-            print(f"{text}\n  -> {result['label']} (confidence: {result['confidence']:.2%})\n")
-        except Exception as e:
-            print(f"Error processing '{text}': {e}\n")
-    
-    print("\n===batch Inference===\n")
-    try:
-        batch_results = predict_batch(samples)
-        for text, result in zip(samples, batch_results):
-            print(f"{text}\n  -> {result['label']} (confidence: {result['confidence']:.2%})\n")
-    except Exception as e:
-        print(f"Error in batch processing: {e}")
+    for sample in ("The flight was delayed three hours.", "Merci, le vol était très agréable !", "الخدمة كانت ممتازة"):
+        print(f"{sample}\n  -> {predict(sample)}\n")
