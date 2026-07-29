@@ -74,53 +74,6 @@ sentiment_model/
 
 Data, checkpoints, and model weights are intentionally ignored by Git.
 
-## Setup
-
-Python **3.11 (64-bit)** is recommended. For NVIDIA RTX 50-series GPUs, install a CUDA 12.8 PyTorch wheel before installing the remaining dependencies.
-
-```powershell
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
-python -m pip install -r requirements.txt
-```
-
-Verify CUDA:
-
-```powershell
-python -c "import torch; print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0))"
-```
-
-## Run the current multilingual pipeline
-
-Download, clean, tokenize, and save the official multilingual splits:
-
-```powershell
-python -m src.preprocess
-```
-
-Fine-tune on GPU (do not pass `--cpu`):
-
-```powershell
-python -m src.train
-```
-
-Evaluate the held-out test set:
-
-```powershell
-python -m src.evaluate
-```
-
-Results are written to `results/multilingual/eval/`, including `metrics.json` and `confusion_matrix.png`.
-
-Launch the web app:
-
-```powershell
-python app.py
-```
-
-To load a model from another location, set `SENTIMENT_MODEL_PATH` before launching the app.
 
 ## Training configuration
 
