@@ -5,7 +5,8 @@ venv311/
 
 # Data, model weights, checkpoints, outputs
 data/
-results/
+results/*
+!results/**/*.png
 sentiment_model/
 tmp_trainer/
 logs/
