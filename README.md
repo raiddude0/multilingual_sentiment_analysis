@@ -10,8 +10,9 @@ The current model is exposed through a Gradio app and is evaluated both overall 
 ## 🎮 Demo: Gradio App
 
 Run the interactive demo locally:
-'''bash
+```bash
 python app.py
+```
 
 ## Results at a glance
 
