@@ -1,15 +1,26 @@
-venv311/
+# Environments
+.venv/
 venv/
+venv311/
+
+# Data, model weights, checkpoints, outputs
+data/
 results/
 sentiment_model/
-data/
-*.safetensors
-*.pth
-*.pt
-.DS_Store
-__pycache__/
-*.pyc
-.env
-.streamlit/
 tmp_trainer/
-.venv/
+logs/
+
+# Python/tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+coverage/
+htmlcov/
+
+# Experiment tracking and secrets
+wandb/
+.env
+.env.*
