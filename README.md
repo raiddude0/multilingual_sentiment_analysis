@@ -15,8 +15,12 @@ The current model is exposed through a Gradio app and is evaluated both overall 
 | General multilingual (current) | 8-language Twitter sentiment dataset | Held-out test set (6,960 tweets) | 66.52% accuracy, 0.663 macro F1 |
 
 The two scores are **not directly comparable**: the airline model was evaluated on a narrow, English-only domain, whereas the multilingual model is evaluated across eight languages and broader Twitter content.
-![Description](results/airline_tweets/eval/confusion_matrix.png)
-![Description](results/airline_tweets/eval/loss_curve.png)
+
+<img src="results/airline_tweets/eval/confusion_matrix.png" width="400">
+
+<img src="results/airline_tweets/eval/loss_curve.png" width="400">
+
+
 ### Current multilingual model: test macro F1 by language
 
 | Language | Macro F1 |
@@ -30,7 +34,10 @@ The two scores are **not directly comparable**: the airline model was evaluated 
 | Italian | 0.625 |
 | Hindi | 0.516 |
 
-![Description](results/multilingual/eval/confusion_matrix.png)
+
+<img src="results/multilingual/eval/confusion_matrix.png" width="400">
+
+
 
 The neutral class is the most difficult overall (0.588 F1). Hindi is the weakest supported language, so this project does not claim equal quality across all languages.
 
