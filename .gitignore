@@ -12,3 +12,4 @@ __pycache__/
 .env
 .streamlit/
 tmp_trainer/
+.venv/
