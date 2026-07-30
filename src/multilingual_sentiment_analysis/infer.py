@@ -11,12 +11,20 @@ from .config import MODEL_DIR
 
 
 def resolve_model_path() -> str:
-    """Return an explicitly configured or locally saved fine-tuned model."""
+    """Return an explicitly configured Hub/local model or the local default."""
     configured = os.environ.get("SENTIMENT_MODEL_PATH")
-    model_path = Path(configured).expanduser() if configured else MODEL_DIR
+    if configured:
+        model_path = Path(configured).expanduser()
+        if model_path.is_dir():
+            return str(model_path)
+        if not model_path.is_absolute() and "/" in configured:
+            return configured  # Hugging Face model ID, e.g. username/model-name
+        raise FileNotFoundError(f"Configured SENTIMENT_MODEL_PATH does not exist: {model_path}")
+
+    model_path = MODEL_DIR
     if not model_path.is_dir():
         raise FileNotFoundError(
-            f"No fine-tuned model found at {model_path}. Train one with `python -m src.train` "
+            f"No fine-tuned model found at {model_path}. Train one with `python -m multilingual_sentiment_analysis.train` "
             "or set SENTIMENT_MODEL_PATH to a compatible model directory."
         )
     return str(model_path)

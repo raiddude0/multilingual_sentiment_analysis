@@ -1,5 +1,5 @@
-from src.config import LANGUAGES
-from src.preprocess import clean_text
+from multilingual_sentiment_analysis.config import LANGUAGES
+from multilingual_sentiment_analysis.preprocess import clean_text
 
 
 def test_clean_text_preserves_non_ascii_text():

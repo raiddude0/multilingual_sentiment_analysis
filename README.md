@@ -1,3 +1,14 @@
+---
+title: Multilingual Sentiment Analysis
+emoji: 🌍
+colorFrom: cyan
+colorTo: blue
+sdk: gradio
+app_file: app.py
+python_version: "3.11"
+suggested_hardware: cpu-basic
+---
+
 # Multilingual Sentiment Analysis
 
 An end-to-end NLP project for three-class sentiment classification: **negative**, **neutral**, and **positive**. The repository contains two XLM-RoBERTa experiments:
@@ -42,18 +53,14 @@ The two scores are **not directly comparable**: the airline model was evaluated 
 | Hindi | 0.516 |
 
 
-<img src="results/multilingual/eval/confusion_matrix.png" width="400">
-
-
-
 The neutral class is the most difficult overall (0.588 F1). Hindi is the weakest supported language, so this project does not claim equal quality across all languages.
 
 ## How it works
 
-1. `src.preprocess` downloads and prepares the multilingual dataset.
+1. `multilingual_sentiment_analysis.preprocess` downloads and prepares the multilingual dataset.
 2. Text is cleaned by removing URLs and mentions, normalizing whitespace, and removing only the `#` marker. Unicode text, accents, emojis, and non-Latin scripts are preserved.
-3. `src.train` fine-tunes `xlm-roberta-base` for three-class sequence classification.
-4. `src.evaluate` reports overall metrics, per-language metrics, and a confusion matrix.
+3. `multilingual_sentiment_analysis.train` fine-tunes `xlm-roberta-base` for three-class sequence classification.
+4. `multilingual_sentiment_analysis.evaluate` reports overall metrics, per-language metrics, and a confusion matrix.
 5. `app.py` provides single-text and batch inference with the saved model.
 
 ## Dataset
@@ -72,11 +79,12 @@ It includes Arabic, English, French, German, Hindi, Italian, Portuguese, and Spa
 
 ```text
 src/
-  config.py       # shared paths, labels, and dataset settings
-  preprocess.py   # dataset download, cleaning, tokenization, and saving
-  train.py        # fine-tuning entry point
-  evaluate.py     # test and per-language evaluation
-  infer.py        # lazy model loading and inference helpers
+  multilingual_sentiment_analysis/
+    config.py       # shared paths, labels, and dataset settings
+    preprocess.py   # dataset download, cleaning, tokenization, and saving
+    train.py        # fine-tuning entry point
+    evaluate.py     # test and per-language evaluation
+    infer.py        # lazy model loading and inference helpers
 tests/            # regression tests for UI and preprocessing behavior
 data/
   airline_tweets/ # archived English-only source data and prepared splits

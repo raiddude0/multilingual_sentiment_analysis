@@ -5,11 +5,11 @@ venv311/
 
 # Data, model weights, checkpoints, outputs
 data/
-results/*
-!results/**/*.png
+results/
 sentiment_model/
 tmp_trainer/
 logs/
+*.log
 
 # Python/tool caches
 __pycache__/

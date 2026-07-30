@@ -1,7 +1,6 @@
 import gradio as gr
 
-from src.multilingual_sentiment_analysis import predict, predict_batch
-
+from multilingual_sentiment_analysis.infer import predict, predict_batch
 
 
 def analyze_single(text: str):
