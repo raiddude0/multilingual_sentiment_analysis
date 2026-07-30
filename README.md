@@ -27,6 +27,12 @@ python app.py
 
 The two scores are **not directly comparable**: the airline model was evaluated on a narrow, English-only domain, whereas the multilingual model is evaluated across eight languages and broader Twitter content.
 
+### Current multilingual model: confusion matrix
+
+<img src="results/multilingual/eval/confusion_matrix.png" width="500">
+
+### Airline-tweet model: evaluation plots
+
 <img src="results/airline_tweets/eval/confusion_matrix.png" width="400">
 
 <img src="results/airline_tweets/eval/loss_curve.png" width="400">
