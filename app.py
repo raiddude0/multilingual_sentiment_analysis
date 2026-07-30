@@ -1,5 +1,6 @@
 import gradio as gr
-
+import sys, os
+sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 from src.infer import predict, predict_batch
 
 
