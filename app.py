@@ -71,4 +71,4 @@ with gr.Blocks(title="🌍 Multilingual Sentiment Analysis", theme=custom_theme)
 
 
 if __name__ == "__main__":
-    demo.launch(share=True)
+    demo.launch()
