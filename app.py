@@ -1,7 +1,7 @@
 import gradio as gr
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
-from src.infer import predict, predict_batch
+
+from multilingual_sentiment_analysis.infer import predict, predict_batch
+
 
 
 def analyze_single(text: str):
