@@ -16,6 +16,8 @@ Run the interactive demo locally:
 python app.py
 ```
 
+![Gradio app batch-analysis demo](assets/demo-screenshot.png)
+
 ## Results at a glance
 
 | Experiment | Data | Evaluation | Result |
