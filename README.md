@@ -84,7 +84,6 @@ src/
     train.py        # fine-tuning entry point
     evaluate.py     # test and per-language evaluation
     infer.py        # lazy model loading and inference helpers
-tests/            # regression tests for UI and preprocessing behavior
 data/
   airline_tweets/ # archived English-only source data and prepared splits
   multilingual/   # prepared multilingual splits
@@ -117,12 +116,6 @@ The multilingual training run completed in approximately 4 minutes 40 seconds on
 - It is evaluated for eight languages, not all languages supported by the XLM-R tokenizer.
 - Hindi and neutral-sentiment performance require further improvement.
 - A useful next experiment is to initialize from a Twitter-adapted multilingual encoder such as XLM-T and compare per-language macro F1 against this baseline.
-
-## Testing
-
-```powershell
-python -m pytest -q
-```
 
 ## Attribution
 
