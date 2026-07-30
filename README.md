@@ -1,13 +1,4 @@
----
-title: Multilingual Sentiment Analysis
-emoji: 🌍
-colorFrom: cyan
-colorTo: blue
-sdk: gradio
-app_file: app.py
-python_version: "3.11"
-suggested_hardware: cpu-basic
----
+
 
 # Multilingual Sentiment Analysis
 
