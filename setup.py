@@ -15,5 +15,6 @@ setup(
         "torch>=2.2,<3",
         "accelerate>=0.30,<2",
         "gradio>=4.0,<7",
+        "spaces",
     ],
 )

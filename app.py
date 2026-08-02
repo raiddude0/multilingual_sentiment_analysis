@@ -1,13 +1,30 @@
 from pathlib import Path
 import sys
+from types import SimpleNamespace
 
 import gradio as gr
+
+try:
+    import spaces
+except ImportError:
+    def _gpu_decorator(fn=None, *args, **kwargs):
+        def decorator(func):
+            return func
+
+        if fn is None:
+            return decorator
+        if callable(fn):
+            return fn
+        return decorator
+
+    spaces = SimpleNamespace(GPU=_gpu_decorator)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from multilingual_sentiment_analysis.infer import predict, predict_batch
 
 
+@spaces.GPU
 def analyze_single(text: str):
     if not text or not text.strip():
         return "⚠️ Please enter some text", ""
